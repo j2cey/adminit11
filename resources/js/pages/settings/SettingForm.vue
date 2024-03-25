@@ -145,6 +145,10 @@ const initComponent = () => {
     console.log('initComponent, setting.value', setting.value);
 }
 
+const clearSearchQuery = () => {
+    searchQuery.value = '';
+}
+
 watch(route,() => {
     initComponent();
 });
@@ -250,7 +254,7 @@ onMounted(() => {
                         </div>
                         <div class="card-body">
                             <div class="container-fluid">
-                                <div class="d-flex justify-content-between">
+                                <div class="d-flex justify-content-between pt-3">
                                     <div class="d-flex">
                                         <div v-if="selectedSettings.length > 0">
                                             <span class="ml-2">Selected {{ selectedSettings.length }} settings</span>
@@ -258,16 +262,18 @@ onMounted(() => {
                                     </div>
 
                                     <div class="d-flex">
-                                        <div class="input-group input-group-sm">
-                                            <input style="height: 23pt" type="text" v-model="searchQuery" class="form-control text-xs" placeholder="Search..." />
+
+                                        <div class="input-group mb-3">
+                                            <input type="search" v-model="searchQuery" class="form-control text-xs" placeholder="Search text..." />
+                                            <button v-if="searchQuery" @click="clearSearchQuery" type="button" class="btn bg-transparent" style="margin-left: -40px; z-index: 100;">
+                                                <i class="fa fa-times"></i>
+                                            </button>
                                             <div class="input-group-append">
-                                                <button type="submit" class="btn btn-xs btn-default">
-                                                    <i class="fa fa-search"></i>
-                                                </button>
+                                                <button class="btn btn-sm btn-default"><i class="fa fa-search"></i></button>
                                             </div>
                                         </div>
-                                    </div>
 
+                                    </div>
 
                                 </div>
                                 <table class="table table-bordered">

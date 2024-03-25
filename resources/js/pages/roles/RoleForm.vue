@@ -197,6 +197,10 @@ const toggleIsInRole = (affectedpermissions) => {
     }
 }
 
+const clearSearchQuery = () => {
+    searchQuery.value = '';
+}
+
 const outRolePermissionsCount = computed(() => {
     return  (permissionscount.value === 0) ? 0 : (rolepermissions.value.length ? permissionscount.value - rolepermissions.value.length : permissionscount.value);
 });
@@ -313,7 +317,7 @@ onMounted(() => {
                         </div>
                         <div class="card-body">
                             <div class="container-fluid">
-                                <div class="d-flex justify-content-between">
+                                <div class="d-flex justify-content-between pt-3">
                                     <div class="d-flex">
                                         <div v-if="selectedPermissions.length > 0">
                                             <button :disabled="permStatus === 'in_role'" @click="bulkAssign" type="button" class="ml-2 mb-2 btn btn-success">
@@ -327,9 +331,19 @@ onMounted(() => {
                                             <span class="ml-2">Selected {{ selectedPermissions.length }} roles</span>
                                         </div>
                                     </div>
-                                    <div>
-                                        <input style="height: 20pt" type="text" v-model="searchQuery" class="form-control pt-2 text-xs" placeholder="Search..." />
+
+                                    <div class="d-flex">
+                                        <div class="input-group mb-3">
+                                            <input type="search" v-model="searchQuery" class="form-control text-xs" placeholder="Search text..." />
+                                            <button v-if="searchQuery" @click="clearSearchQuery" type="button" class="btn bg-transparent" style="margin-left: -40px; z-index: 100;">
+                                                <i class="fa fa-times"></i>
+                                            </button>
+                                            <div class="input-group-append">
+                                                <button class="btn btn-sm btn-default"><i class="fa fa-search"></i></button>
+                                            </div>
+                                        </div>
                                     </div>
+
                                 </div>
                                 <table class="table table-bordered">
                                     <thead>

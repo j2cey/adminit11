@@ -135,6 +135,10 @@ const selectAllSettings = () => {
     }
 }
 
+const clearSearchQuery = () => {
+    searchQuery.value = '';
+}
+
 watch(searchQuery, debounce(() => {
     getSettings();
 }, 300));
@@ -180,8 +184,17 @@ onMounted(() => {
                         <span class="ml-2">Selected {{ selectedSettings.length }} settings</span>
                     </div>
                 </div>
-                <div>
-                    <input type="text" v-model="searchQuery" class="form-control" placeholder="Search..." />
+
+                <div class="d-flex">
+                    <div class="input-group mb-3">
+                        <input type="search" v-model="searchQuery" class="form-control text-xs" placeholder="Search text..." />
+                        <button v-if="searchQuery" @click="clearSearchQuery" type="button" class="btn bg-transparent" style="margin-left: -40px; z-index: 100;">
+                            <i class="fa fa-times"></i>
+                        </button>
+                        <div class="input-group-append">
+                            <button class="btn btn-sm btn-default"><i class="fa fa-search"></i></button>
+                        </div>
+                    </div>
                 </div>
             </div>
 

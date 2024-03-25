@@ -66,13 +66,13 @@ onMounted(() => {
                                     <option value="cancelled">Cancelled</option>
                                 </select>
                             </div>
-                            <p>Appointments</p>
+                            <p>Treatments</p>
                         </div>
                         <div class="icon">
                             <i class="ion ion-bag"></i>
                         </div>
                         <router-link to="/admin/appointments" class="small-box-footer">
-                            View Appointments
+                            View Treatments
                             <i class="fas fa-arrow-circle-right"></i>
                         </router-link>
                     </div>
