@@ -2,14 +2,19 @@
 
 namespace App\Models;
 
+use App\Traits\Base\BaseTrait;
+use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Notifications\Notifiable;
+use OwenIt\Auditing\Contracts\Auditable;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
 
-class User extends Authenticatable
+class User extends Authenticatable implements Auditable
 {
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, HasRoles, \OwenIt\Auditing\Auditable, BaseTrait;
 
     /**
      * The attributes that are mass assignable.
@@ -20,6 +25,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'avatar'
     ];
 
     /**
@@ -43,5 +49,21 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    protected $appends = [
+        'formatted_created_at',
+    ];
+
+    public function getFormattedCreatedAtAttribute()
+    {
+        return $this->created_at->format(config('settings.default.date_format'));
+    }
+
+    public function avatar(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => asset($value ? Storage::url($value) : 'noimage.png'),
+        );
     }
 }

@@ -28,6 +28,8 @@ return [
 
     'env' => env('APP_ENV', 'production'),
 
+    'admin_password' => env('ADMIN_PASSWORD', 'ADMIN_PASSWORD'),
+
     /*
     |--------------------------------------------------------------------------
     | Application Debug Mode
@@ -53,6 +55,7 @@ return [
     */
 
     'url' => env('APP_URL', 'http://localhost'),
+    'photos_folder' => env('PHOTOS_FOLDER', 'photos'),
 
     /*
     |--------------------------------------------------------------------------
