@@ -9,17 +9,25 @@ export const useAuthUserStore = defineStore('AuthUserStore', () => {
     const user = ref({
         name: '',
         email: '',
-        role: '',
         avatar: '',
     });
+
+    const userroles = ref({});
 
     const getAuthUser = async () => {
         await axios.get('/api/profile')
             .then((response) => {
                 user.value = response.data;
+                userroles.value = response.data.roles.map(role => role.name.toLowerCase());
+
+                console.log('STORE user.value: ', user.value);
+                console.log('STORE userroles.value: ', userroles.value);
             });
     };
 
+    const includesAny = (arr, values) => values.some(v => arr.includes(v));
+
+    const adminroles = ref(['admin','super admin']);
     const permissions = ref({});
 
     const ability = inject(ABILITY_TOKEN);
@@ -27,9 +35,14 @@ export const useAuthUserStore = defineStore('AuthUserStore', () => {
         axios.get('/api/abilities').then(response => {
             permissions.value = response.data;
             const { can, rules } = new AbilityBuilder(Ability);
-            can(response.data);
+
+            if (includesAny(userroles.value, adminroles.value)) {
+                permissions.value.push('manage-all');
+            }
+
+            can(permissions.value);
             ability.update(rules);
-            console.log('STORE abilities: ', response.data);
+            console.log('STORE abilities: ', permissions.value);
         });
     };
 

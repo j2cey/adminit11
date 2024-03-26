@@ -14,7 +14,6 @@ import { useSettingStore } from './stores/SettingStore';
 
 import { abilitiesPlugin, Can } from '@casl/vue';
 import ability from './services/ability';
-import getAbilities from './composables/auth.js'
 
 const pinia = createPinia();
 const app = createApp(App);

@@ -12,7 +12,7 @@ class ProfileController extends Controller
 {
     public function index(Request $request)
     {
-        return $request->user()->only(['name', 'email', 'role', 'avatar']);
+        return $request->user()->with('roles')->first();
     }
 
     public function update(Request $request)
